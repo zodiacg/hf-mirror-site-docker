@@ -1,4 +1,5 @@
 {
+	auto_https off
 	# debug
 	order replace after encode
 	# 设置日志格式，info使用common log格式，error使用json格式

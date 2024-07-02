@@ -1,14 +1,13 @@
-cdn-lfs.MIRROR_HOST {
-	import tls_hf_com
+http://cdn-lfs.{$MIRROR_HOST} {
 	log hf
 
 	route / {
-		redir https://{MIRROR_HOST}
+		redir https://{$MIRROR_HOST}
 	}
 	@invlid_referer {
 		path_regexp .*/resolve/main/.*
 			not header !Referer
-			not header_regexp Referer ^https?://(\.*\.)?hf-mirror\.com(/|$)
+			not header_regexp Referer ^https?://(\.*\.)?{$MIRROR_HOST_REGEXP}(/|$)
 	}
 
 	route @invlid_referer {
@@ -17,7 +16,7 @@ cdn-lfs.MIRROR_HOST {
 
 	route /invalid_access.html {
 		file_server {
-			root /var/www/html/MIRROR_HOST/
+			root /var/www/html/
 			index invalid_access.html
 		}
 	}
@@ -29,13 +28,12 @@ cdn-lfs.MIRROR_HOST {
 		}
 	}
 	route /* {
-		redir https://MIRROR_HOST
+		redir https://{$MIRROR_HOST}
 	}
 }
 
 
-cdn-lfs-us-1.MIRROR_HOST {
-	import tls_hf_com
+http://cdn-lfs-us-1.{$MIRROR_HOST} {
 	log hf
 	route /repos/* {
 		reverse_proxy https://cdn-lfs-us-1.huggingface.co {
@@ -43,6 +41,6 @@ cdn-lfs-us-1.MIRROR_HOST {
 		}
 	}
 	route /* {
-			redir https://MIRROR_HOST
+			redir https://{$MIRROR_HOST}
 	}
 }
