@@ -47,7 +47,7 @@ function search(){
             abortController = new AbortController();
             sessionStorage.setItem('searchKeyword', query);
             try {
-                const response = await fetch(`https://hf-mirror.com/api/quicksearch?q=${encodeURIComponent(query)}&type=model&type=dataset`, { signal: abortController.signal });
+                const response = await fetch(`/api/quicksearch?q=${encodeURIComponent(query)}&type=model&type=dataset`, { signal: abortController.signal });
                 const data = await response.json();
                 let resultsHtml = '';
                 ['models', 'datasets'].forEach(type => {
@@ -191,7 +191,7 @@ window.addEventListener('pageshow', function () {
 // 定义一个配置对象
 const config = {
     models: {
-        url: "https://hf-mirror.com/models-json?sort=trending",
+        url: "/models-json?sort=trending",
         containerSelector: '.models ul',
         itemTemplate: (item) => `
             <span class="model-id">${item.id}</span>
@@ -202,7 +202,7 @@ const config = {
         `
     },
     datasets: {
-        url: "https://hf-mirror.com/models-json?sort=trending",
+        url: "/models-json?sort=trending",
         containerSelector: '.dataset ul',
         itemTemplate: (item) => `
             <span class="model-id">${item.id}</span>
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const now = new Date().getTime();
 
         if (!data || !expiry || now >= expiry) {
-            const response = await fetch(`https://hf-mirror.com/api/trending?limit=10&type=${type}`);
+            const response = await fetch(`/api/trending?limit=10&type=${type}`);
             data = await response.json();
             expiry = new Date().getTime() + 1 * 60 * 1000;
             sessionStorage.setItem(`rankingList_${type}`, JSON.stringify(data));
