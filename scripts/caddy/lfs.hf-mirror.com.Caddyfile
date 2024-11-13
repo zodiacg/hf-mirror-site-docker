@@ -22,7 +22,7 @@ http://cdn-lfs.{$MIRROR_HOST} {
 	}
 	route /repos/* {
 		reverse_proxy {
-			to https://cdn-lfs.huggingface.co
+			to https://cdn-lfs.hf.co
 			lb_policy round_robin
 			header_up Host {upstream_hostport}
 		}
@@ -36,7 +36,7 @@ http://cdn-lfs.{$MIRROR_HOST} {
 http://cdn-lfs-us-1.{$MIRROR_HOST} {
 	log hf
 	route /repos/* {
-		reverse_proxy https://cdn-lfs-us-1.huggingface.co {
+		reverse_proxy https://cdn-lfs-us-1.hf.co {
 			header_up Host {upstream_hostport}
 		}
 	}

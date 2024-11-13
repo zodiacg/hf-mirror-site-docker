@@ -106,6 +106,8 @@ http://{$MIRROR_HOST} {
 			header_up Host {upstream_hostport}
 			header_down Location cdn-lfs\.huggingface\.co cdn-lfs.{$MIRROR_HOST}
 			header_down Location cdn-lfs-us-1\.huggingface\.co cdn-lfs-us-1.{$MIRROR_HOST}
+                        header_down Location cdn-lfs\.hf\.co cdn-lfs.{$MIRROR_HOST}
+                        header_down Location cdn-lfs-us-1\.hf\.co cdn-lfs-us-1.{$MIRROR_HOST}
 			header_down Location huggingface\.co {$MIRROR_HOST}
 		}
 	}
@@ -120,6 +122,8 @@ http://{$MIRROR_HOST} {
 			header_up Host {upstream_hostport}
 			header_down Location cdn-lfs\.huggingface\.co cdn-lfs.{$MIRROR_HOST}
 			header_down Location cdn-lfs-us-1\.huggingface\.co cdn-lfs-us-1.{$MIRROR_HOST}
+                        header_down Location cdn-lfs\.hf\.co cdn-lfs.{$MIRROR_HOST}
+                        header_down Location cdn-lfs-us-1\.hf\.co cdn-lfs-us-1.{$MIRROR_HOST}
 			header_down Location huggingface\.co {$MIRROR_HOST}
 		}
 	}
@@ -132,6 +136,8 @@ http://{$MIRROR_HOST} {
 			header_up X-Api-Key {$API_KEY}
 			header_down Location cdn-lfs\.huggingface.co cdn-lfs.{$MIRROR_HOST}
 			header_down Location cdn-lfs-us-1\.huggingface.co cdn-lfs-us-1.{$MIRROR_HOST}
+                        header_down Location cdn-lfs\.hf\.co cdn-lfs.{$MIRROR_HOST}
+                        header_down Location cdn-lfs-us-1\.hf\.co cdn-lfs-us-1.{$MIRROR_HOST}
 			header_down Location huggingface\.co {$MIRROR_HOST}
 		}
 	}
