@@ -112,22 +112,6 @@ http://{$MIRROR_HOST} {
 		}
 	}
 
-	# 给 https://github.com/Lyken17/hf-torrent 项目提供 webseed 支持
-	handle /ws/* {
-		uri path_regexp /ws/models--([^-]+)--(.+)--([^-]+)/(.+)$ /$1/$2/resolve/$3/$4
-		uri path_regexp /ws/models--(.+)--(.+)/(.+)$ /$1/resolve/$2/$3
-		uri path_regexp /ws/datasets--([^-]+)--(.+)--([^-]+)/(.+)$ /datasets/$1/$2/resolve/$3/$4
-		uri path_regexp /ws/datasets--(.+)--(.+)/(.+)$ /datasets/$1/resolve/$2/$3
-		reverse_proxy https://huggingface.co {
-			header_up Host {upstream_hostport}
-			header_down Location cdn-lfs\.huggingface\.co cdn-lfs.{$MIRROR_HOST}
-			header_down Location cdn-lfs-us-1\.huggingface\.co cdn-lfs-us-1.{$MIRROR_HOST}
-                        header_down Location cdn-lfs\.hf\.co cdn-lfs.{$MIRROR_HOST}
-                        header_down Location cdn-lfs-us-1\.hf\.co cdn-lfs-us-1.{$MIRROR_HOST}
-			header_down Location huggingface\.co {$MIRROR_HOST}
-		}
-	}
-
 	handle /* {
 		# skip_log
 		reverse_proxy https://huggingface.co {
@@ -136,9 +120,10 @@ http://{$MIRROR_HOST} {
 			header_up X-Api-Key {$API_KEY}
 			header_down Location cdn-lfs\.huggingface.co cdn-lfs.{$MIRROR_HOST}
 			header_down Location cdn-lfs-us-1\.huggingface.co cdn-lfs-us-1.{$MIRROR_HOST}
-                        header_down Location cdn-lfs\.hf\.co cdn-lfs.{$MIRROR_HOST}
-                        header_down Location cdn-lfs-us-1\.hf\.co cdn-lfs-us-1.{$MIRROR_HOST}
+			header_down Location cdn-lfs\.hf\.co cdn-lfs.{$MIRROR_HOST}
+			header_down Location cdn-lfs-us-1\.hf\.co cdn-lfs-us-1.{$MIRROR_HOST}
 			header_down Location huggingface\.co {$MIRROR_HOST}
+			header_down link huggingface\.co {$MIRROR_HOST}
 		}
 	}
 }

@@ -1,29 +1,43 @@
-# Mirror site of huggingface
+# Docker version of HF-mirror
 
-Public version: [https://hf-mirror.com/](https://hf-mirror.com/)
+You can use this docker image to deploy your own version of [https://hf-mirror.com/](https://hf-mirror.com/).
 
-## Deploy your own mirror
+**The deployed service doesn't provide TLS. It is designed to work with a reverse proxy in front of it.**
 
-### Step 1: Install caddy
-Install Caddy with the following plugins:
+## Quick Start
 
-- replace-response
-- transform-encoder
-- (Option) caddy-dns/cloudflare
+```bash
+docker run -d \
+  --name hf-mirror \
+  -p 8080:80 \
+  -e MIRROR_HOST=your-domain.com \
+  -e MIRROR_HOST_REGEXP=your-domain\\.com \
+  ghcr.io/zodiacg/hf-mirror-site-docker:latest
+```
 
-You can download the executable caddy file containing the above plugins from [the official website here](https://caddyserver.com/download?package=github.com%2Fcaddyserver%2Freplace-response&package=github.com%2Fcaddy-dns%2Fcloudflare&package=github.com%2Fcaddyserver%2Ftransform-encoder) or build with [xcaddy](https://github.com/caddyserver/xcaddy).
+Replace `your-domain.com` with your actual domain.
 
+## Setup
 
-### Step 2: prepare .env file
+### Domain Resolution
 
-.env
+If your domain for hosting Huggingface mirror is `MIRROR_HOST`, the following domain should point to your server:
+
+* `MIRROR_HOST`
+* `cdn-lfs.MIRROR_HOST`
+* `cdn-lfs-us-1.MIRROR_HOST`
+
+It is recommened to just set `*.MIRROR_HOST` to the same server to support later updates.
+
+### Environment Variables
+
+Two env var needs to be sed:
+
 ```
 MIRROR_HOST=hf-mirror.com
-CF_TOKEN=your_cf_api_token_if_you_use_cloudflare_dns
-API_KEY="" # ignore it
+MIRROR_HOST_REGEXP=hf-mirror\\.com
 ```
 
-### Step 3: run caddy
-```bash
-caddy run --envfile ./scripts/caddy/.env.template --config ./scripts/caddy/Caddyfile
-```
+`MIRROR_HOST` is for the main domain name.
+
+`MIRROR_HOST_REGEXP` is for the regular expression to capture the main domain name, used for filtering requests. In most cases just use `\\` to escape every dot.
